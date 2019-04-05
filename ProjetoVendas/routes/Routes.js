@@ -39,6 +39,15 @@ module.exports = (class Routes extends GenericRoutes {
       }
     });
 
+    server.post('/get_produto', async (req, res) => {
+      try {
+        const dados = await this.controller.getProduto(req.body.usuario, req.body.empresa);
+        res.send({ status: true, dados });
+      } catch (ex) {
+        res.send({ status: false, erro: ex });
+      }
+    });
+
   }
   
 });

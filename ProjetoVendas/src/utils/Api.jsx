@@ -21,6 +21,11 @@ export default (class Api extends GenericApi {
   static async getUsuarios(codigo, filtro, where) {
     return await super.post('/get_usuarios', { codigo, filtro, where });
   }
+
+  static async getProduto(usuario, empresa) {
+    return await super.post('/get_produto', { usuario, empresa });
+  }
+
   static async getEmpresasNaoAdicionadas(empresasAdicionadas) {
     return await super.post('/get_empresas_nao_adicionadas', { empresasAdicionadas });
   }

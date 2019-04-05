@@ -4,32 +4,50 @@ import { toastr } from 'react-redux-toastr';
 import { Column } from '../lib_react_adminlte/componentes/Table.jsx';
 import LabeledInput from '../lib_react_adminlte/componentes/LabeledInput.jsx';
 import Cadastro from './Cadastro.jsx';
-import  { RadioGroup, RadioButton }  from '../lib_react_adminlte/componentes/RadioGroup.jsx' 
-import Checkbox from '../lib_react_adminlte/componentes/Checkbox.jsx';
+ import Checkbox from '../lib_react_adminlte/componentes/Checkbox.jsx';
 import Api from '../utils/Api.jsx';
 import $ from 'jquery';
-import ApiceComboEditPanel from '../lib_react_adminlte/componentes/ApiceComboEditPanel.jsx';
-
+ 
 /**
  * Componente de cadastro de funcionário.
  */
-class CadastroUsuario extends React.Component {
+class CadastroProduto extends React.Component {
 
   state = {
     registro: this.getRegistroLimpo(),
   };
 
   onChange(prop, event) {
-    let value = event.target ? event.target.value : event;
-    if (prop === 'usuario') {
-      value = value.replace(/\s*/g, '');
-    } else if (prop === 'senha') {
-      value = value.toLowerCase();
-    }
+ 
+    const value = event.target ? event.target.value : event; 
+    let valor = '';
+    if (prop == 'porcentagem') {
+      valor = (this.state.registro.preco_compra * value) / 100; 
+   
+    }   
+    if (prop == 'preco_compra' && this.state.registro.porcentagem > 0) {
+      valor = (this.state.registro.porcentagem * value) / 100; 
+   
+    }  
+    
+    if (prop == 'preco_venda' && this.state.registro.preco_compra > 0) {
+      valor =  (value - this.state.registro.preco_compra) /  (this.state.registro.preco_compra * 100); 
+   
+      this.setState({
+        registro: {
+          ...this.state.registro,
+          [prop]: value,
+          porcentagem: valor,  
+        },
+      });
+ 
+    }  
+
     this.setState({
       registro: {
         ...this.state.registro,
-        [prop]: value,
+        [prop]: value, 
+        preco_venda: valor,
       },
     });
   }
@@ -38,7 +56,7 @@ class CadastroUsuario extends React.Component {
    * Retorna a mensagem de confirmação ao excluir.
    */
   getMsgExcluir() {
-    return 'Tem certeza que deseja excluir ' + this.state.registro.nome_usuario + ' ?';
+    return 'Tem certeza que deseja excluir ' + this.state.registro.nome_produto + ' ?';
   }
 
   /**
@@ -46,13 +64,15 @@ class CadastroUsuario extends React.Component {
    */
   getRegistroLimpo() {
     return {
-      id: 0,
-      nome_usuario: '',
-      email: '',
-      tipo: '', 
-      usuario: '',
+      cod_produto: 0,
+      nome_produto: '',
+      preco_compra: '',
+      preco_venda: '', 
+      porcentagem: '',
+      lucro: 0,
+      codigo_barra: '',
       status_ativo: 'S',
-      cod_empresa: this.props.usuario.id != 1 ? this.props.usuario.cod_empresa : 0,
+      cod_empresa: this.props.usuario.id,
     };
   }
 
@@ -60,7 +80,7 @@ class CadastroUsuario extends React.Component {
    * Retorna as ações da tabela.
    */
   async getRegistros(filtro) {
-    const ret = await Api.getUsuarios('da', 'ddd', 'dddccc');
+    const ret = await Api.getProduto(this.props.usuario.id, this.props.usuario.cod_empresa);
     if (!ret.status) {
       return toastr.error('Erro!', ret.erro.error_message);
     }
@@ -113,9 +133,10 @@ class CadastroUsuario extends React.Component {
    */
   renderColunas() {
     return [ 
-      <Column style={{}} key={1} field="nome_usuario" header="Nome" />, 
-      <Column style={{}} key={3} field="email" header="E-mail" />,
-      <Column style={{}} key={3} field="nome_empresa" header="Empresa" />,
+      <Column style={{}} key={1} field="nome_produto" header="Produto" />, 
+      <Column style={{}} key={3} field="preco_compra" header="Preço Compra" />,
+      <Column style={{}} key={3} field="preco_venda" header="Preço Venda" />,
+      <Column style={{}} key={3} field="codigo_barra" header="Código Barra" />,
       <Column style={{ width: '140px', textAlign: 'center' }} key={6} field="ativo" header="Ativo?" />,
     ];
   }
@@ -132,65 +153,33 @@ class CadastroUsuario extends React.Component {
             <div className="col-sm-4">
               <LabeledInput label="Nome:"
                             uppercase='false'
-                            value={this.state.registro.nome_usuario}
-                            onChange={this.onChange.bind(this, 'nome_usuario')} />
+                            value={this.state.registro.nome_produto}
+                            onChange={this.onChange.bind(this, 'nome_produto')} />
             </div>
             <div className="col-sm-4">
-              <LabeledInput label="Usuário:"                            
-                            value={this.state.registro.usuario}
-                            onChange={this.onChange.bind(this, 'usuario')} 
-                            inputRef={e => this.inputUsuario = e} />
+              <LabeledInput label="Preço Compra:"                            
+                            value={this.state.registro.preco_compra}
+                            onChange={this.onChange.bind(this, 'preco_compra')} 
+                            inputRef={e => this.inputpreco_compra = e} />
             </div>
+
             <div className="col-sm-4">
-              <LabeledInput label="E-mail:"                            
-                            value={this.state.registro.email}
-                            onChange={this.onChange.bind(this, 'email')} />
+              <LabeledInput label="Porcentagem:"                            
+                            value={this.state.registro.porcentagem}
+                            onChange={this.onChange.bind(this, 'porcentagem')} />
             </div>
- 
-          {this.props.usuario.tipo == 'A' ? 
-          <div className="col-sm-6">
-            <ApiceComboEditPanel label="Empresa:"
-              tabela="tab_empresa"
-              chave="cod_empresa"
-              desc="nome_empresa"
-              // where={this.props.empresa.tipo_empresa != 1 ?
-              //    'b.cod_empresa = ' + this.props.empresa.cod_empresa : null}
-              colunas={[
-                <Column style={{ width: '30px' }} key={0} field="cod_empresa" header="Código" />,
-                <Column key={1} field="nome_empresa" header="Nome" />,
-              ]}
-              ref={e => this.comboEditPanelFunc = e}
-              value={this.state.registro.cod_empresa}
-              onChange={(e) => { 
-                this.setState({
-                  registro: {
-                    ...this.state.registro,
-                    cod_empresa: e.target.value,
-                  },
-               }); 
-              }}
-              api={Api} />
-            </div> : ''}
-            <div className="col-sm-6">
 
-                <RadioGroup title="Função:">
-
-                  <RadioButton text="Gerente" name="tipo"
-                      checked={this.state.registro.tipo == 'G'}
-                      onChange={() => this.setState({
-                        registro:
-                          { ...this.state.registro, tipo: 'G' },
-                      })} /> 
-
-                    <RadioButton text="Comum" name="tipo"
-                      checked={this.state.registro.tipo == 'C'}
-                      onChange={() => this.setState({
-                        registro:
-                          { ...this.state.registro, tipo: 'C' },
-                      })} /> 
+            <div className="col-sm-4">
+              <LabeledInput label="Preço Venda:"                            
+                            value={this.state.registro.preco_venda}
+                            onChange={this.onChange.bind(this, 'preco_venda')} />
+            </div>
   
-                </RadioGroup>
-                </div>
+            <div className="col-sm-4">
+              <LabeledInput label="Codigo Barra:"                            
+                            value={this.state.registro.codigo_barra}
+                            onChange={this.onChange.bind(this, 'codigo_barra')} />
+            </div>  
           </div>
           <Checkbox text="Ativo?"
             checked={this.state.registro.status_ativo == 'S'}
@@ -210,9 +199,9 @@ class CadastroUsuario extends React.Component {
   render() {
     return (
       <div>
-        <Cadastro tabela="tab_usuario"
-                  pk="id"
-                  titulo="Cadastro de Usuarios"
+        <Cadastro tabela="tab_produto"
+                  pk="cod_produto"
+                  titulo="Cadastro de Produto"
 
                   renderForm={this.renderForm.bind(this)}
                   renderColunas={this.renderColunas.bind(this)}
@@ -233,4 +222,4 @@ class CadastroUsuario extends React.Component {
 export default connect((state) => ({
   usuario: state.usuario,
   socket: state.socket,
-}), (dispatch) => ({ dispatch }))(CadastroUsuario);
+}), (dispatch) => ({ dispatch }))(CadastroProduto);

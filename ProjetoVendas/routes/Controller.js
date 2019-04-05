@@ -69,11 +69,39 @@ module.exports = (class Controller extends GenericController {
     }
   }
 
+  async getProduto(usuario, empresa) {
+    try {
+      if (usuario == 1) {
+        return await dbUtils.query('select * from tab_produto');
+      } else {
+        return await dbUtils.query('select * from tab_produto where cod_empresa = ' + empresa);
+      }
+    } catch (error) {
+        console.log('erro ao buscar os produtos ', error);
+    }
+  }
+
+
   async salvar(tabela, pk, entidade) { 
     try {  
 
-      if (tabela == 'tab_usuario') {
-       const inserir = await dbUtils.query(' insert into tab_usuario set ' + 
+      if (tabela == 'tab_usuario') { 
+       if (entidade[pk]) {
+        await dbUtils.query(' update tab_usuario set ' + 
+        '   nome_usuario  = ?, ' + 
+        '  usuario  = ?, ' + 
+        '  email  = ?, ' +   
+        '   cod_empresa  = ? ' +
+        ' where id = ? ', [
+        entidade.nome_usuario,
+        entidade.usuario,
+        entidade.email,  
+        entidade.cod_empresa,
+        entidade.id,
+        ]); 
+        return;
+       } else {
+        await dbUtils.query(' insert into tab_usuario set ' + 
         '   nome_usuario  = ?, ' + 
          '  usuario  = ?, ' + 
          '  email  = ?, ' + 
@@ -87,6 +115,8 @@ module.exports = (class Controller extends GenericController {
         entidade.cod_empresa,
         ]); 
         return;
+       }
+ 
       }
 
       await super.salvar(tabela, pk, entidade); 

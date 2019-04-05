@@ -4,6 +4,7 @@ import filiaisReducer from './utils/filialReducer';
 import Api from './utils/Api.jsx';
 import CadastroUsuario from './componentes/CadastroUsuario';
 import CadastroEmpresa from './componentes/CadastroEmpresa';
+import CadastroProduto from './componentes/CadastroProduto';
 
 const opcoes = new Apice.Options();
 
@@ -13,13 +14,15 @@ Apice.iniciarAplicacao({
   }, (redux, menuItem) => {
     const arr = [];
 
-    arr.push(menuItem('empresa', 'Empresa', 'fa-building', CadastroEmpresa));
+    if (redux.usuario.tipo == 'A') {
+      arr.push(menuItem('empresa', 'Empresa', 'fa-building', CadastroEmpresa));
+    } 
+    if (redux.usuario.tipo == 'A' || redux.usuario.tipo == 'G') {
     arr.push(menuItem('usuario', 'Usuário', 'fa-users', CadastroUsuario));
-     
-    // if (redux.usuario.tipo_usuario == 1) {
-    //   arr.push(menuItem('usuario', 'Usuário', 'fa-user', CadastroUsuario));
-    // }
-   
+    }
+    if (redux.usuario.tipo == 'A' || redux.usuario.tipo == 'G') {
+      arr.push(menuItem('produto', 'Produto', 'fa-product-hunt ', CadastroProduto));
+      }
     return arr;
   }, 
   'fa-money',

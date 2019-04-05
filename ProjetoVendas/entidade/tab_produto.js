@@ -19,6 +19,7 @@ module.exports = class Usuario extends EntidadeSinc {
       field('lucro').double('12,4'),
       field('codigo_barra').double('12,4'),
       field('cod_empresa').int(11),
+      field('status_ativo').enum('S', 'N').default('S'),
 
 
     ];
