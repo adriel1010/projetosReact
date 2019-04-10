@@ -1,17 +1,18 @@
 import React from 'react'; 
 import { connect } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
-import { Column } from '../lib_react_adminlte/componentes/Table.jsx';
+import { Column, Table } from '../lib_react_adminlte/componentes/Table.jsx';
 import LabeledInput from '../lib_react_adminlte/componentes/LabeledInput.jsx';
 import Cadastro from './Cadastro.jsx';
  import Checkbox from '../lib_react_adminlte/componentes/Checkbox.jsx';
 import Api from '../utils/Api.jsx';
 import $ from 'jquery';
+import ComponentVenda from './ComponentVenda.jsx';
  
 /**
  * Componente de cadastro de funcionário.
  */
-class CadastroProduto extends React.Component {
+class Vendas extends React.Component {
 
   state = {
     registro: this.getRegistroLimpo(),
@@ -150,36 +151,44 @@ class CadastroProduto extends React.Component {
       <div>
         <div>
           <div className="row mt-5">
-            <div className="col-sm-4">
+          <div className="col-sm-6">
+        
+            <div className="col-sm-6">
               <LabeledInput label="Nome:"
                             uppercase='false'
                             value={this.state.registro.nome_produto}
                             onChange={this.onChange.bind(this, 'nome_produto')} />
             </div>
-            <div className="col-sm-4">
+            <div className="col-sm-6">
               <LabeledInput label="Preço Compra:"                            
                             value={this.state.registro.preco_compra}
                             onChange={this.onChange.bind(this, 'preco_compra')} 
                             inputRef={e => this.inputpreco_compra = e} />
             </div>
 
-            <div className="col-sm-4">
+            <div className="col-sm-6">
               <LabeledInput label="Porcentagem:"                            
                             value={this.state.registro.porcentagem}
                             onChange={this.onChange.bind(this, 'porcentagem')} />
             </div>
 
-            <div className="col-sm-4">
+            <div className="col-sm-6">
               <LabeledInput label="Preço Venda:"                            
                             value={this.state.registro.preco_venda}
                             onChange={this.onChange.bind(this, 'preco_venda')} />
             </div>
   
-            <div className="col-sm-4">
+            <div className="col-sm-6">
               <LabeledInput label="Codigo Barra:"                            
                             value={this.state.registro.codigo_barra}
                             onChange={this.onChange.bind(this, 'codigo_barra')} />
             </div>  
+            </div>
+            <div className="col-sm-3">
+             
+            
+             </div>
+
           </div>
           <Checkbox text="Ativo?"
             checked={this.state.registro.status_ativo == 'S'}
@@ -199,9 +208,10 @@ class CadastroProduto extends React.Component {
   render() {
     return (
       <div>
-        <Cadastro tabela="tab_produto"
-                  pk="cod_produto"
-                  titulo="Cadastro de Produto"
+        <ComponentVenda tabela="tab_venda"
+                  subTitulo="Realize suas vendas"
+                  pk="cod_venda"
+                  titulo="Vendas"
 
                   renderForm={this.renderForm.bind(this)}
                   renderColunas={this.renderColunas.bind(this)}
@@ -222,4 +232,4 @@ class CadastroProduto extends React.Component {
 export default connect((state) => ({
   usuario: state.usuario,
   socket: state.socket,
-}), (dispatch) => ({ dispatch }))(CadastroProduto);
+}), (dispatch) => ({ dispatch }))(Vendas);

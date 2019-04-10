@@ -5,6 +5,7 @@ import Api from './utils/Api.jsx';
 import CadastroUsuario from './componentes/CadastroUsuario';
 import CadastroEmpresa from './componentes/CadastroEmpresa';
 import CadastroProduto from './componentes/CadastroProduto';
+import Vendas from './componentes/Vendas';
 
 const opcoes = new Apice.Options();
 
@@ -23,11 +24,13 @@ Apice.iniciarAplicacao({
     if (redux.usuario.tipo == 'A' || redux.usuario.tipo == 'G') {
       arr.push(menuItem('produto', 'Produto', 'fa-product-hunt ', CadastroProduto));
       }
+
+      arr.push(menuItem('vendas', 'Vendas', 'fa fa-money', Vendas));
     return arr;
   }, 
   'fa-money',
   'Gerenciador De Vendas',
   'apice_fechamento_web',
-  'http://192.168.1.4:3000',
+  'http://localhost:3000',
   opcoes,
 );

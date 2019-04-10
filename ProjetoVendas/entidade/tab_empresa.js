@@ -3,7 +3,7 @@
 const EntidadeSinc = require('../lib_umbler_backend/sincronizacao/EntidadeSinc');
 const field = require('../lib_umbler_backend/sincronizacao/field');
 
-module.exports = class Usuario extends EntidadeSinc {
+module.exports = class tab_empresa extends EntidadeSinc {
 
   constructor() {
     super('tab_empresa');
