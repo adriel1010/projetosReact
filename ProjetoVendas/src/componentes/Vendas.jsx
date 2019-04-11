@@ -16,7 +16,9 @@ class Vendas extends React.Component {
 
   state = {
     registro: this.getRegistroLimpo(),
+    
   };
+  
 
   onChange(prop, event) {
  
@@ -152,54 +154,144 @@ class Vendas extends React.Component {
         <div>
           <div className="row mt-5">
           <div className="col-sm-6">
+
+           <div className="col-sm-12 estilo-venda-coluna-dados" > 
+          </div>
         
             <div className="col-sm-6">
-              <LabeledInput label="Nome:"
-                            uppercase='false'
+              <LabeledInput label="Consulta:"
+                            className='input-arredondado'
+                            uppercase='false' 
                             value={this.state.registro.nome_produto}
                             onChange={this.onChange.bind(this, 'nome_produto')} />
             </div>
             <div className="col-sm-6">
-              <LabeledInput label="Preço Compra:"                            
+              <LabeledInput label="Código:"         
+                  className='input-arredondado'                   
                             value={this.state.registro.preco_compra}
                             onChange={this.onChange.bind(this, 'preco_compra')} 
                             inputRef={e => this.inputpreco_compra = e} />
             </div>
 
             <div className="col-sm-6">
-              <LabeledInput label="Porcentagem:"                            
+              <LabeledInput label="Quantidade:"     
+                  className='input-arredondado'                       
                             value={this.state.registro.porcentagem}
                             onChange={this.onChange.bind(this, 'porcentagem')} />
             </div>
 
             <div className="col-sm-6">
-              <LabeledInput label="Preço Venda:"                            
+              <LabeledInput label="Unidade:"     
+                  className='input-arredondado'                       
                             value={this.state.registro.preco_venda}
                             onChange={this.onChange.bind(this, 'preco_venda')} />
             </div>
   
-            <div className="col-sm-6">
-              <LabeledInput label="Codigo Barra:"                            
+            <div className="col-sm-12">
+              <LabeledInput label="Valor Unitário:"       
+                  className='input-arredondado'                     
+                            value={this.state.registro.codigo_barra}
+                            onChange={this.onChange.bind(this, 'codigo_barra')} />
+            </div>  
+            
+            <div className="col-sm-12">
+              <LabeledInput label="Valor SubTotal:"  
+                  className='input-arredondado'                          
                             value={this.state.registro.codigo_barra}
                             onChange={this.onChange.bind(this, 'codigo_barra')} />
             </div>  
             </div>
-            <div className="col-sm-3">
+
+            <div className="col-sm-6"> 
+              <div className="col-sm-12"> 
+                   <div className="col-sm-4">
+                      <LabeledInput label="Cliente:"  
+                          className='input-arredondado-superior-tabela'                          
+                                    value={this.state.registro.codigo_barra}
+                                    readOnly
+                                    onChange={this.onChange.bind(this, 'codigo_barra')} />
+                    </div> 
+                    <div className="col-sm-5">
+                      <LabeledInput label="Vendedor:"  
+                          className='input-arredondado-superior-tabela'                          
+                                    value={this.state.registro.codigo_barra}
+                                    readOnly
+                                    onChange={this.onChange.bind(this, 'codigo_barra')} />
+                    </div> 
+                    <div className="col-sm-3">
+                      <LabeledInput label="Horário:"  
+                          className='input-arredondado-superior-tabela'                          
+                                    value={this.state.registro.codigo_barra}
+                                    readOnly
+                                    onChange={this.onChange.bind(this, 'codigo_barra')} />
+                    </div>
+
+                     <div className="col-sm-12 estilo-venda-coluna-tabela" > 
+
+                     <div className="col-sm-12">
+                        <label className="letra-itens"> Gerenciador de vendas</label> 
+                       
+                      </div>
+                       <div className="col-sm-12">
+                        <label className="letra-itens"> Avenida Domingos Sanches, Número 818</label>
+                        </div>
+
+                       <div className="col-sm-12">
+                        <label className="letra-itens"> Jardim Morumbi - Paranavaí PR</label>
+                        </div>
+
+                        <div className="col-sm-12"> 
+                        <label className="letra-itens"> Contato: (44) 3423-0847 ou (44)99959-8661</label>
+                        </div>
+
+                        <div className="col-sm-12" style={{ textAlign:'center' }}>
+                           <label className="letra-itens" >EXTRATO DE VENDA</label>
+                        </div>
+
+                        <div className="col-sm-12" style={{ marginLeft: '-15px' }}>
+                          <div className="col-sm-2">
+                            <label className="letra-itens">ITEM</label>
+                          </div>
+
+                          <div className="col-sm-3">
+                            <label className="letra-itens">CÓDIGO</label>
+                          </div>
+
+                          <div className="col-sm-7">
+                            <label className="letra-itens">DESCRIÇÃO </label>
+                          </div>
+
+                        </div>
+
+                        <div className="col-sm-12"  style={{ marginTop: '-8px', marginLeft: '-15px'}}> 
+
+                          <div className="col-sm-2"> 
+                            <label className="letra-itens">DTD. </label>
+                          </div>
+
+                          <div className="col-sm-2"> 
+                            <label className="letra-itens">UN. </label>
+                          </div>
+ 
+                          <div className="col-sm-5"> 
+                           <label className="letra-itens">VL.UNITÁRIO(R$) </label>
+                          </div>
+
+                          <div className="col-sm-3"> 
+                            <label className="letra-itens">VL.ITEM(R$) </label>
+                          </div>
+ 
+                     
+                        </div>
+
+                    </div>
+
+              </div> 
+            </div>
              
-            
-             </div>
 
           </div>
-          <Checkbox text="Ativo?"
-            checked={this.state.registro.status_ativo == 'S'}
-            onChange={(e) => 
-              this.setState({
-                registro: {
-                  ...this.state.registro,
-                  status_ativo: e.target.checked ? 'S' : 'N',
-                },
-            })} 
-            className="cb-empresa-acumulado" />
+           
         </div> 
       </div>
     );
@@ -227,7 +319,7 @@ class Vendas extends React.Component {
     );
   }
 
-}
+} 
 
 export default connect((state) => ({
   usuario: state.usuario,
