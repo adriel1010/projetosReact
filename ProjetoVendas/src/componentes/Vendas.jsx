@@ -16,7 +16,23 @@ class Vendas extends React.Component {
 
   state = {
     registro: this.getRegistroLimpo(),
-    
+    itens: [{
+      cod: 1,
+      cod_barra: 1231321,
+      descricao: 'produto de teste',
+      qtd: 2,
+      un: 'UN',
+      vl_unitario: 25.50,
+      vl_total: 30.50,
+    }, {
+      cod: 2,
+      cod_barra: 12313216544,
+      descricao: 'outro produto de teste',
+      qtd: 3,
+      un: 'UN',
+      vl_unitario: 30.50,
+      vl_total: 130.50,
+    }],
   };
   
 
@@ -78,6 +94,8 @@ class Vendas extends React.Component {
       cod_empresa: this.props.usuario.id,
     };
   }
+
+ 
 
   /**
    * Retorna as ações da tabela.
@@ -263,8 +281,7 @@ class Vendas extends React.Component {
 
                         </div>
 
-                        <div className="col-sm-12"  style={{ marginTop: '-8px', marginLeft: '-15px'}}> 
-
+                        <div className="col-sm-12"  style={{ marginTop: '-3px', marginLeft: '-15px'}}>  
                           <div className="col-sm-2"> 
                             <label className="letra-itens">DTD. </label>
                           </div>
@@ -279,9 +296,53 @@ class Vendas extends React.Component {
 
                           <div className="col-sm-3"> 
                             <label className="letra-itens">VL.ITEM(R$) </label>
-                          </div>
+                          </div> 
+                        </div> 
  
-                     
+                          {/* renderiza os itens  */}
+                        <div className="col-sm-12"  style={{ marginTop: '-1px' }}> 
+                        {this.state.itens.map((x, y) => (
+                        
+                          <div style={{  marginLeft: '-15px' }} > 
+                            <div className="col-sm-12" style={{ marginLeft: '15px' }}>
+                              <div style={{ width: '12%',  float: 'left' }} >
+                                <label className="letra-itens">{x.cod}</label>
+                              </div>
+
+                              <div style={{ width: '30%', float: 'left' }} >
+                                <label className="letra-itens">{x.cod_barra}</label>
+                              </div>
+
+                              <div style={{ width: '58%', float: 'left' }} >
+                                <label className="letra-itens">{x.descricao} </label>
+                              </div> 
+                            </div> 
+
+
+                             <div className="col-sm-12"  style={{ marginTop: '-8px', marginLeft: '30px' }}>  
+                            
+                             <div style={{  width: '8%', float: 'left' }} > 
+                               <label className="letra-itens">{x.qtd} </label>
+                             </div>
+   
+                             <div style={{  width: '15%', float: 'left'  }} > 
+                               <label className="letra-itens">{x.un} </label>
+                             </div>
+
+                             <div style={{ width: '18%', float: 'left'  }} > 
+                              <label className="letra-itens"> X </label>
+                             </div>
+
+                             <div style={{ width: '20%', float: 'left'  }} > 
+                              <label className="letra-itens"> {x.vl_unitario} </label>
+                             </div>
+   
+                             <div style={{ width: '39%', float: 'right', textAlign: 'center' }} > 
+                               <label className="letra-itens">{x.vl_total} </label>
+                             </div> 
+                           </div> 
+                           </div>
+                        )) }
                         </div>
 
                     </div>
