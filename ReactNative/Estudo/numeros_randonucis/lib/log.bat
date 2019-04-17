@@ -1,0 +1,1 @@
+adb logcat *:S ApicePDV:V br.com.apicesistemas.apicepdv3:V System.out:V 

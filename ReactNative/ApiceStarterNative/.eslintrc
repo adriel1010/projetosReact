@@ -1,0 +1,17 @@
+{
+  "extends": "rallycoding",
+  "rules": {
+    "react/jsx-first-prop-new-line": [2, "never"],
+    "react/jsx-closing-bracket-location": [2, "after-props"],
+    "react/jsx-tag-spacing": [2, {
+      "afterOpening": "never"
+    }],
+    "no-return-assign": 0,
+    "react/jsx-space-before-closing": [2, "always"],
+    "comma-dangle": [2, "always-multiline"],
+    "react/no-multi-comp": 0,
+    "prefer-template": 0,
+    "eqeqeq": 0,
+    "no-underscore-dangle": 0
+  }
+}
